@@ -1,6 +1,5 @@
 From Ltac2 Require Import Ltac2.
 From Coq Require Import Init.Byte.
-From Ltac2 Require Char.
 
 Ltac2 coq_byte_to_char b :=
   Char.of_int (match! b with
