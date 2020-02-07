@@ -11,7 +11,6 @@ env:
   jobs:
   - COQ_VERSION="dev"
   - COQ_VERSION="8.11"
-  - COQ_VERSION="8.10"
 
 install: |
   docker run -d -i --init --name=COQ -v ${TRAVIS_BUILD_DIR}:/home/coq/demo -w /home/coq/demo coqorg/coq:${COQ_VERSION}
