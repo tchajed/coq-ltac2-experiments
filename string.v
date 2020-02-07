@@ -18,7 +18,7 @@ Module StringToIdent.
     end.
 
   (* copy a list of Coq byte constrs into a string (already of the right length) *)
-  Ltac2 rec coq_byte_list_blit_list pos ls str :=
+  Ltac2 rec coq_byte_list_blit_list (pos:int) (ls: constr) (str: string) :=
     match! ls with
     | nil => ()
     | ?c :: ?ls =>
@@ -29,30 +29,30 @@ Module StringToIdent.
   Ltac2 compute c :=
     Std.eval_vm None c.
 
-  Ltac2 rec coq_string_length s :=
+  Ltac2 rec coq_string_length (s: constr) :=
     match! s with
     | EmptyString => 0
     | String _ ?s' => Int.add 1 (coq_string_length s')
     end.
 
-  Ltac2 coq_string_to_string s :=
+  Ltac2 coq_string_to_string (s: constr) :=
     let l := coq_string_length s in
     let str := String.make l (Char.of_int 0) in
     let bytes := compute constr:(coq_string_to_list_byte $s) in
     let _ := coq_byte_list_blit_list 0 bytes str in
     str.
 
-  Ltac2 fresh_from_string s :=
+  Ltac2 fresh_from_string (s: string) :=
     match Ident.of_string s with
     | Some id => Fresh.fresh (Fresh.Free.of_ids []) id
     | None => Control.throw (InvalidIdent s)
     end.
 
-  Ltac2 coq_string_to_ident s := fresh_from_string (coq_string_to_string s).
+  Ltac2 coq_string_to_ident (s: constr) := fresh_from_string (coq_string_to_string s).
 
   Module U := Ltac2.Constr.Unsafe.
 
-  Ltac2 lambda_binder id := { Constr.binder_name:= Some id; Constr.binder_relevance:= Constr.Relevant }.
+  Ltac2 lambda_binder (id: ident) := { Constr.binder_name:= Some id; Constr.binder_relevance:= Constr.Relevant }.
   Ltac2 ident_to_lambda id := U.make (U.Lambda (lambda_binder id) constr:(unit) constr:(tt)).
 
   Ltac2 get_opt o := match o with None => Control.throw Not_found | Some x => x end.
