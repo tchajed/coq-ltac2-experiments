@@ -8,6 +8,34 @@ Global Set Default Proof Mode "Ltac2".
   shims that forward to Ltac1, rather than pure Ltac2 or OCaml implementations.
   *)
 
+(* Some core sources of incompatibility in porting not fixed here include:
+- The biggest issue was that Ltac1 `apply` takes an untyped term and unifies
+  its _conclusion_ with the goal while also creating new goals for hypotheses
+  that don't fall out via unification. In Ltac2 you can either use `refine` and
+  unify holes with the goal, or use `apply` and have Ltac2 generate goals for
+  hypotheses, but not both at the same time (at least not without somehow
+  extending refine with the functionality of apply). In practice there are two
+  solutions: switch to refine and add enough _'s for the hypotheses, or in many
+  cases the only holes were due to maximally-inserted implicit arguments which
+  can be stripped in the call to apply with [apply @lemma_name] or can be removed
+  from the identifier itself with `Arguments lemma_name [T]`.
+- The `try` and `repeat` tacticals are parsed with different precedence, such
+  that they always require parentheses whereas in Ltac1 they bound very weakly
+  and nicely consumed multi-token arguments.
+- There are still many tactics in Ltac1 not exposed, and in particular variants
+  (with `in` or `by` or `as` for example). Ltac2 has a nice story for parsing
+  these and passing them to general tactics that take all the parameters, but I
+  couldn't find a nice way to add backwards-compatibility notations for all of
+  them without writing a variant for each one, including both the ltac1:(...)
+  wrapper and the Ltac2 notation wrapper. Notation wrappers are non-trivial
+  because the parsing rules have to be correctly specified for the result to be
+  usable and compatible.
+- Occasionally (rarely) the code uses t; [ t1 | t2 ], which is now written t >
+  [ t1 | t2 ].
+- Occasionally (rarely) an identifier in the proof shadows a global (eg, a hypothesis
+  named `eq`), in which case Ltac2 requires `&eq` to pick the hypothesis.
+*)
+
 Local Ltac2 replace_with (lhs: constr) (rhs: constr) :=
   ltac1:(lhs rhs |- replace lhs with rhs)
           (Ltac1.of_constr lhs) (Ltac1.of_constr rhs).
