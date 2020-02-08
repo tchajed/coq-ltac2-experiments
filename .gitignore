@@ -3,3 +3,4 @@
 *.vok
 *.glob
 .*.aux
+.coqdeps.d

@@ -2,7 +2,7 @@ From Ltac2 Require Import Ltac2.
 From Coq Require Import Strings.String.
 From Coq Require Import Init.Byte.
 
-Require Import char.
+From ltac2_playground Require Import char.
 
 Import List.ListNotations.
 Local Open Scope list.
