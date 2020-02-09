@@ -7,6 +7,10 @@
 Implements conversion from Gallina strings to Gallina identifiers, and exports
 this functionality to Ltac1.
 
+## [matching.v](src/matching.v)
+
+An example of matching over the goal and manipulating hypotheses.
+
 ## [Ltac2Lib.v](src/Ltac2Lib.v)
 
 A library that gives enough Ltac1 functionality to make Software Foundations
