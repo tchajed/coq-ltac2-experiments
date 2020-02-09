@@ -58,9 +58,7 @@ Local Ltac2 assert_fails_tac (t: unit -> 'a) :=
   end.
 Ltac2 Notation "assert_fails" t(thunk(tactic)) := assert_fails_tac t.
 
-(* the actual exfalso uses [elimtype False], but this seems much simpler (and we use
-[False_ind] to generate the same proof term) *)
-Local Ltac2 exfalso_tac () := refine '(False_ind _ _).
+Local Ltac2 exfalso_tac () := ltac1:(exfalso).
 Ltac2 Notation "exfalso" := exfalso_tac ().
 
 Ltac2 pose_proof_ltac1 c := ltac1:(c |- pose proof c) (Ltac1.of_constr c).
