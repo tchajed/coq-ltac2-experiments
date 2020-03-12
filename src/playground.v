@@ -53,3 +53,6 @@ Ltac2 explain_abc abc :=
 Ltac2 Eval explain_abc A.
 Ltac2 Eval explain_abc (B true).
 Ltac2 Eval explain_abc (C constr:(2 + 3)).
+
+Ltac2 Type 'a two_things := { first_thing: 'a; second_thing: int }.
+Ltac2 get_first (x: 'a two_things) := x.(first_thing).
