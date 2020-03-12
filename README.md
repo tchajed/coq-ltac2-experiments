@@ -11,6 +11,12 @@ this functionality to Ltac1.
 
 An example of matching over the goal and manipulating hypotheses.
 
+## [deex.v](src/deex.v)
+
+A tactic that destructs exists in the hypotheses and preserves existing names.
+Illustrates getting identifiers from binders, passing ident variables to
+primitive tactics, and generating fresh names.
+
 ## [Ltac2Lib.v](src/Ltac2Lib.v)
 
 A library that gives enough Ltac1 functionality to make Software Foundations

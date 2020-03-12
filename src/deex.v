@@ -31,7 +31,7 @@ Ltac2 fresh_from_hyps (id:ident) :=
   fresh (hyp_free ()) id.
 
 Import Std.
-Ltac2 deex () :=
+Ltac2 deex_one () :=
   match! goal with
   | [ h: ex ?f |- _ ] =>
     let x := Option.get (get_lambda_name f) in
@@ -46,6 +46,8 @@ Ltac2 deex () :=
                          indcl_in := None;
                        }] None
   end.
+
+Ltac2 deex () := repeat (deex_one ()).
 
 Theorem simple_example_ltac2 (Hex: exists n, n > 3) : exists n, n > 3.
 Proof.
