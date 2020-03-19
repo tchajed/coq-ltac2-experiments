@@ -69,15 +69,13 @@ Module StringToIdent.
 
   Module U := Ltac2.Constr.Unsafe.
 
-  (* helper to build a binder *)
-  Ltac2 lambda_binder (id: ident) := { Constr.binder_name:= Some id; Constr.binder_relevance:= Constr.Relevant }.
   (* The identity function with a specific name for the bound variable. Strictly
   speaking we could generate (fun (x:unit) => tt), but we really generate the
   identity function so when it's printed the name is shown. (Even though the
   name is printed as _ for unused binders, it's still stored and pattern
   matching can retrieve it). The only downside is that we have to refer to the
   bound variable with an explicit de Bruijn index [Rel 1]. *)
-  Ltac2 ident_to_lambda id := U.make (U.Lambda (lambda_binder id) constr:(unit) (U.make (U.Rel 1))).
+  Ltac2 ident_to_lambda id := U.make (U.Lambda (Constr.Binder.make (Some id) 'unit) (U.make (U.Rel 1))).
 
   Ltac2 get_opt o := match o with None => Control.throw Not_found | Some x => x end.
   (* Passing the string into Ltac2 is comparatively easier: we use the ltac2:(x

@@ -20,7 +20,7 @@ Qed.
 
 Ltac2 get_lambda_name (x:constr) :=
   match U.kind x with
-  | U.Lambda annot _ _ => annot.(Constr.binder_name)
+  | U.Lambda binder _ => Constr.Binder.name binder
   | _ => None
   end.
 
