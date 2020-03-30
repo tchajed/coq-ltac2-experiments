@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.com/tchajed/coq-ltac2-experiments.svg?branch=master)](https://travis-ci.com/tchajed/coq-ltac2-experiments)
 
+You might also want to look at an [Ltac2
+Tutorial](https://github.com/tchajed/ltac2-tutorial) that I wrote.
+
 ## [string.v](src/string.v)
 
 Implements conversion from Gallina strings to Gallina identifiers, and exports
