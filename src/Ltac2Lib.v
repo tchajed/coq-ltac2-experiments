@@ -1,6 +1,6 @@
 Require Export Ltac2.Ltac2.
 Global Set Warnings "+not-unit".
-Require Coq.omega.Omega.
+Require Coq.micromega.Lia.
 Global Set Default Proof Mode "Ltac2".
 
 (* This library implements the functionality from Ltac1 needed for Software
@@ -42,8 +42,8 @@ Local Ltac2 replace_with (lhs: constr) (rhs: constr) :=
 Ltac2 Notation "replace" lhs(constr) "with" rhs(constr) :=
   replace_with lhs rhs.
 
-Local Ltac2 omega_ltac1 () := ltac1:(omega.Omega.omega).
-Ltac2 Notation "omega" := omega_ltac1 ().
+Local Ltac2 lia_ltac1 () := ltac1:(micromega.Lia.lia).
+Ltac2 Notation "lia" := lia_ltac1 ().
 
 Local Ltac2 generalize_dependent_ltac1 (x:constr) :=
   ltac1:(x |- generalize dependent x) (Ltac1.of_constr x).
